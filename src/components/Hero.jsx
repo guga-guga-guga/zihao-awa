@@ -57,8 +57,14 @@ export default function Hero() {
       <div className="hero__grid" aria-hidden="true" />
       <div className="hero__noise" aria-hidden="true" />
       <div className="hero__carousel" aria-hidden="true">
-        <img className="hero__carousel-img hero__carousel-img--1" src="/images/hero-0001.png" alt="" decoding="async" fetchPriority="high" />
-        <img className="hero__carousel-img hero__carousel-img--2" src="/images/hero-ocean.png" alt="" decoding="async" loading="lazy" fetchPriority="low" />
+        <picture>
+          <source srcSet="/images/hero-0001.webp" type="image/webp" />
+          <img className="hero__carousel-img hero__carousel-img--1" src="/images/hero-0001.png" alt="" decoding="async" fetchPriority="high" />
+        </picture>
+        <picture>
+          <source srcSet="/images/hero-ocean.webp" type="image/webp" />
+          <img className="hero__carousel-img hero__carousel-img--2" src="/images/hero-ocean.png" alt="" decoding="async" loading="lazy" fetchPriority="low" />
+        </picture>
       </div>
 
       <div className="hero__veil" aria-hidden="true" />

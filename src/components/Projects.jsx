@@ -48,7 +48,10 @@ export default function Projects() {
         <div className="projects__showcase">
           <Reveal className="projects__stage">
             <div className="projects__visual">
-              <img src={activeProject.image} alt={activeProject.title} loading="lazy" decoding="async" />
+              <picture>
+                  <source srcSet={activeProject.image.replace(/\.png$/, '.webp')} type="image/webp" />
+                  <img src={activeProject.image} alt={activeProject.title} loading="lazy" decoding="async" />
+                </picture>
               <div className="projects__visual-shade" aria-hidden="true" />
               <span className="projects__visual-index">{activeProject.index}</span>
               <span className="projects__visual-year">{activeProject.year}</span>

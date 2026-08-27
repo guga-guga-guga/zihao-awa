@@ -1,4 +1,4 @@
-﻿# 王子豪 · 个人作品集
+# 王子豪 · 个人作品集
 
 基于 React + Vite 的个人作品集基础版本，面向 PC 端，暗色科技感风格。
 
@@ -42,3 +42,14 @@ npm run preview
 
 - 个人技能改为“技能 / 软件”横向标签排版
 - 新增“AI 视频创作”项目
+
+
+## 图片压缩 / 转 WebP
+
+```bash
+npm install
+npm run optimize:images
+```
+
+脚本会扫描 `public/images` 下的 PNG/JPG，并生成对应的 `.webp` 文件。
+页面中的 `<picture>` 会优先加载 WebP，缺失时自动回退到原 PNG。

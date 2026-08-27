@@ -1629,6 +1629,11 @@ main,
   overflow: hidden;
 }
 
+.hero__carousel picture {
+  position: absolute;
+  inset: 0;
+}
+
 .hero__carousel-img {
   position: absolute;
   inset: 0;
