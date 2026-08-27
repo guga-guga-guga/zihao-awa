@@ -48,7 +48,7 @@ export default function Projects() {
         <div className="projects__showcase">
           <Reveal className="projects__stage">
             <div className="projects__visual">
-              <img src={activeProject.image} alt={activeProject.title} />
+              <img src={activeProject.image} alt={activeProject.title} loading="lazy" decoding="async" />
               <div className="projects__visual-shade" aria-hidden="true" />
               <span className="projects__visual-index">{activeProject.index}</span>
               <span className="projects__visual-year">{activeProject.year}</span>

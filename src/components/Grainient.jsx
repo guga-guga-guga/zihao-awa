@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Renderer, Program, Mesh, Triangle } from 'ogl';
 import './Grainient.css';
 
@@ -130,9 +130,29 @@ const Grainient = ({
   className = ''
 }) => {
   const containerRef = useRef(null);
+  const [ready, setReady] = useState(false);
+
+  // Lazy mount: only create WebGL context when section approaches viewport.
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || ready) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setReady(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: '300px' },
+    );
+    io.observe(container);
+    return () => io.disconnect();
+  }, [ready]);
 
   // Effect 1: build WebGL context once, pause when offscreen / tab hidden
   useEffect(() => {
+    if (!ready) return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -140,7 +160,7 @@ const Grainient = ({
       webgl: 2,
       alpha: true,
       antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 2)
+      dpr: Math.min(window.devicePixelRatio || 1, 1.5), powerPreference: 'low-power'
     });
 
     const gl = renderer.gl;
@@ -239,7 +259,7 @@ const Grainient = ({
       ctxMap.delete(container);
       try { container.removeChild(canvas); } catch { /* ignore */ }
     };
-  }, []); // renderer created once
+  }, [ready]); // renderer created once when lazy-mounted
 
   // Effect 2: sync props to uniforms — zero GPU cost, no teardown
   useEffect(() => {
@@ -275,7 +295,7 @@ const Grainient = ({
     timeSpeed, colorBalance, warpStrength, warpFrequency, warpSpeed,
     warpAmplitude, blendAngle, blendSoftness, rotationAmount, noiseScale,
     grainAmount, grainScale, grainAnimated, contrast, gamma, saturation,
-    centerX, centerY, zoom, color1, color2, color3
+    centerX, centerY, zoom, color1, color2, color3, ready
   ]);
 
 
