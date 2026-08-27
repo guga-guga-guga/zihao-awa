@@ -1,0 +1,17 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="white" stroke-opacity=".16">
+    <path d="M0 120H800M0 240H800M0 360H800M0 480H800M0 600H800"/>
+    <path d="M100 0V600M200 0V600M300 0V600M400 0V600M500 0V600M600 0V600M700 0V600"/>
+  </g>
+  <path d="M40 520C180 460 260 540 420 470C580 400 680 500 820 420" stroke="#6ee7ff" stroke-opacity=".5" stroke-width="2" stroke-linecap="round"/>
+  <path d="M40 560C200 500 300 580 480 510C640 450 720 540 820 480" stroke="#a78bfa" stroke-opacity=".4" stroke-width="1.6" stroke-linecap="round"/>
+  <circle cx="650" cy="180" r="90" stroke="#6ee7ff" stroke-opacity=".35" stroke-width="1.4"/>
+  <circle cx="650" cy="180" r="58" stroke="#a78bfa" stroke-opacity=".3" stroke-width="1.2"/>
+  <circle cx="650" cy="180" r="18" fill="#6ee7ff" fill-opacity=".6"/>
+  <path d="M560 420L620 300L700 420Z" stroke="#34d399" stroke-opacity=".4" stroke-width="1.5" fill="none"/>
+  <path d="M580 460L650 360L720 460Z" stroke="#fbbf24" stroke-opacity=".3" stroke-width="1.2" fill="none"/>
+  <rect x="120" y="420" width="80" height="80" rx="16" stroke="#f472b6" stroke-opacity=".35" stroke-width="1.5" transform="rotate(-12 160 460)"/>
+  <circle cx="240" cy="180" r="36" stroke="#f472b6" stroke-opacity=".3" stroke-width="1.4"/>
+  <circle cx="240" cy="180" r="10" fill="#f472b6" fill-opacity=".55"/>
+  <text x="720" y="540" text-anchor="end" font-family="Consolas, monospace" font-size="14" letter-spacing=".3em" fill="white" fill-opacity=".28">SKILLS</text>
+</svg>

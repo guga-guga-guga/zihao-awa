@@ -1,0 +1,28 @@
+<svg width="800" height="1000" viewBox="0 0 800 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="800" y2="1000" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0b0f14"/>
+      <stop offset=".5" stop-color="#10161d"/>
+      <stop offset="1" stop-color="#080a0d"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="42%" r="55%">
+      <stop offset="0%" stop-color="#1b3440" stop-opacity=".8"/>
+      <stop offset="60%" stop-color="#0d141a" stop-opacity=".2"/>
+      <stop offset="100%" stop-color="#080a0d" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="50"/></filter>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <rect width="800" height="1000" fill="url(#glow)"/>
+  <g stroke="white" stroke-opacity=".045">
+    <path d="M0 160H800M0 320H800M0 480H800M0 640H800M0 800H800M0 960H800"/>
+    <path d="M160 0V1000M320 0V1000M480 0V1000M640 0V1000"/>
+  </g>
+  <ellipse cx="400" cy="420" rx="280" ry="300" fill="#6ee7ff" fill-opacity=".06" filter="url(#blur)"/>
+  <circle cx="400" cy="430" r="210" stroke="#6ee7ff" stroke-opacity=".3" stroke-width="1.4"/>
+  <circle cx="400" cy="430" r="168" stroke="white" stroke-opacity=".1" stroke-width="1"/>
+  <path d="M320 370L360 330L480 450L400 530L320 450L360 410L400 450L480 370L440 330L400 370L360 330" stroke="#a78bfa" stroke-opacity=".6" stroke-width="1.4" fill="none"/>
+  <text x="400" y="540" text-anchor="middle" font-family="Inter, sans-serif" font-size="120" font-weight="700" fill="#e9eaec" letter-spacing=".05em">ZH</text>
+  <text x="400" y="590" text-anchor="middle" font-family="Consolas, monospace" font-size="16" letter-spacing=".3em" fill="#8b929c">WANG ZIHAO</text>
+  <text x="400" y="700" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" fill="#6ee7ff" letter-spacing=".2em">王 子 豪</text>
+</svg>

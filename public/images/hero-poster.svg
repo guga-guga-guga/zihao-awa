@@ -1,0 +1,22 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="glow" cx="70%" cy="25%" r="65%">
+      <stop offset="0%" stop-color="#12323a" />
+      <stop offset="45%" stop-color="#0b151b" />
+      <stop offset="100%" stop-color="#050607" />
+    </radialGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1920" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6ee7ff" stop-opacity=".4" />
+      <stop offset="1" stop-color="#a78bfa" stop-opacity=".08" />
+    </linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="90"/></filter>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#glow)"/>
+  <g stroke="white" stroke-opacity=".04">
+    <path d="M0 180H1920M0 360H1920M0 540H1920M0 720H1920M0 900H1920"/>
+    <path d="M240 0V1080M480 0V1080M720 0V1080M960 0V1080M1200 0V1080M1440 0V1080M1680 0V1080"/>
+  </g>
+  <ellipse cx="1350" cy="320" rx="520" ry="380" fill="#6ee7ff" fill-opacity=".08" filter="url(#blur)"/>
+  <ellipse cx="420" cy="850" rx="420" ry="300" fill="#a78bfa" fill-opacity=".07" filter="url(#blur)"/>
+  <path d="M-100 850C280 720 560 1020 900 820C1240 620 1480 820 2020 650" stroke="url(#line)" stroke-width="1.2"/>
+</svg>

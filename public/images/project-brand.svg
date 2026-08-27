@@ -1,0 +1,41 @@
+<svg width="1600" height="1000" viewBox="0 0 1600 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="1000" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0c0a0e"/>
+      <stop offset="1" stop-color="#140d12"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#f472b6" stop-opacity=".12"/>
+      <stop offset="100%" stop-color="#f472b6" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="50"/></filter>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <rect width="1600" height="1000" fill="url(#glow)"/>
+  <g stroke="white" stroke-opacity=".04">
+    <path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600M0 900H1600"/>
+    <path d="M200 0V1000M400 0V1000M600 0V1000M800 0V1000M1000 0V1000M1200 0V1000M1400 0V1000"/>
+  </g>
+  <ellipse cx="800" cy="420" rx="460" ry="340" fill="#f472b6" fill-opacity=".07" filter="url(#blur)"/>
+  <rect x="220" y="170" width="460" height="660" rx="30" fill="#121014" stroke="white" stroke-opacity=".12"/>
+  <rect x="300" y="270" width="300" height="300" rx="150" fill="#f472b6" fill-opacity=".85"/>
+  <path d="M400 330L500 330L450 430L400 330Z" fill="#0c0a0e"/>
+  <text x="450" y="520" text-anchor="middle" font-family="Inter, sans-serif" font-size="54" font-weight="700" fill="#f472b6" letter-spacing=".1em">ZH</text>
+  <text x="300" y="650" text-anchor="start" font-family="Consolas, monospace" font-size="16" fill="#e9eaec" letter-spacing=".24em">WANG ZIHAO</text>
+  <text x="300" y="690" text-anchor="start" font-family="Inter, sans-serif" font-size="15" fill="#8b929c">VISUAL · AI · BRAND DESIGN</text>
+  <rect x="760" y="170" width="620" height="180" rx="24" fill="#141116" stroke="white" stroke-opacity=".1"/>
+  <circle cx="830" cy="260" r="26" fill="#f472b6"/>
+  <circle cx="900" cy="260" r="26" fill="#6ee7ff"/>
+  <circle cx="970" cy="260" r="26" fill="#a78bfa"/>
+  <circle cx="1040" cy="260" r="26" fill="#34d399"/>
+  <rect x="1120" y="230" width="200" height="14" rx="7" fill="white" fill-opacity=".3"/>
+  <rect x="1120" y="262" width="160" height="12" rx="6" fill="white" fill-opacity=".15"/>
+  <rect x="760" y="390" width="620" height="220" rx="24" fill="#141116" stroke="white" stroke-opacity=".1"/>
+  <rect x="800" y="440" width="120" height="120" rx="10" fill="#f472b6" fill-opacity=".2" stroke="#f472b6" stroke-opacity=".6"/>
+  <rect x="940" y="440" width="120" height="120" rx="10" fill="#f472b6" fill-opacity=".45"/>
+  <rect x="1080" y="440" width="120" height="120" rx="10" fill="#f472b6"/>
+  <rect x="760" y="650" width="620" height="180" rx="24" fill="#141116" stroke="white" stroke-opacity=".1"/>
+  <rect x="800" y="700" width="240" height="14" rx="7" fill="white" fill-opacity=".3"/>
+  <rect x="800" y="732" width="420" height="12" rx="6" fill="white" fill-opacity=".14"/>
+  <rect x="800" y="760" width="360" height="12" rx="6" fill="white" fill-opacity=".1"/>
+</svg>
