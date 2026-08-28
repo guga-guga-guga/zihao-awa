@@ -1,38 +1,36 @@
-﻿import Reveal from './Reveal'
-import Grainient from './Grainient'
+import { useRef, useState } from 'react'
+import Reveal from './Reveal'
+import LightRays from './LightRays'
 import { profile } from '../data/profile'
-import useTheme from '../hooks/useTheme'
 
 export default function About() {
-  const { theme } = useTheme()
+  const [copied, setCopied] = useState(false)
+  const timerRef = useRef(null)
+
+  const copyToClipboard = async (value) => {
+    try {
+      await navigator.clipboard.writeText(value)
+    } catch {
+      const textarea = document.createElement('textarea')
+      textarea.value = value
+      textarea.style.position = 'fixed'
+      textarea.style.opacity = '0'
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textarea)
+    }
+
+    setCopied(true)
+    if (timerRef.current) clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(() => setCopied(false), 1600)
+  }
 
   return (
     <section className="about section" id="about">
-      <Grainient
-        className="about__grainient"
-        color1={theme === 'light' ? '#eef1f6' : '#1f1d1f'}
-        color2={theme === 'light' ? '#dbe4f0' : '#2c273e'}
-        color3={theme === 'light' ? '#e6ecf3' : '#252d36'}
-        timeSpeed={0.25}
-        colorBalance={0}
-        warpStrength={1}
-        warpFrequency={5}
-        warpSpeed={2}
-        warpAmplitude={50}
-        blendAngle={0}
-        blendSoftness={0.05}
-        rotationAmount={500}
-        noiseScale={2}
-        grainAmount={0.1}
-        grainScale={2}
-        grainAnimated={false}
-        contrast={1.5}
-        gamma={1}
-        saturation={1}
-        centerX={0}
-        centerY={0}
-        zoom={0.9}
-      />
+      <div className="about__grid" aria-hidden="true" />
+      <div className="about__glow" aria-hidden="true" />
+      <LightRays className="about__light-rays" />
       <div className="container">
         <div className="about__layout">
           <Reveal className="about__portrait-wrap" delay={80}>
@@ -82,8 +80,20 @@ export default function About() {
               </div>
               <div className="about__info-item">
                 <span className="about__info-label">联系方式</span>
-                <a href={`mailto:${profile.email}`}>{profile.email}</a>
-                  <span>{profile.wechat}</span>
+                <button
+                  type="button"
+                  className="about__copy-link"
+                  onClick={() => copyToClipboard(profile.email)}
+                >
+                  {profile.email}
+                </button>
+                <button
+                  type="button"
+                  className="about__copy-link"
+                  onClick={() => copyToClipboard(profile.wechat)}
+                >
+                  {profile.wechat}
+                </button>
               </div>
             </Reveal>
 
@@ -98,6 +108,7 @@ export default function About() {
           </div>
         </div>
       </div>
+      {copied && <div className="copy-toast" role="status">已复制</div>}
     </section>
   )
 }

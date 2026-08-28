@@ -1178,24 +1178,38 @@ a {
   border-radius: 22px;
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.02);
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+  appearance: none;
   transition:
     background 0.3s ease,
     border-color 0.3s ease,
     transform 0.3s ease;
 }
 
-a.contact__channel:hover {
+.contact__channel:hover {
   background: rgba(255, 255, 255, 0.04);
   border-color: var(--accent);
   transform: translateY(-4px);
 }
 
 .contact__channel-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.22em;
   color: rgba(255, 255, 255, 0.36);
   text-transform: uppercase;
+}
+
+.contact__channel-copied {
+  color: var(--accent);
+  letter-spacing: 0.08em;
 }
 
 .contact__channel strong {
@@ -1531,7 +1545,7 @@ a.contact__channel:hover {
 }
 
 
-/* ---------- Toolkit layout (技能 / 软件) ---------- */
+/* ---------- Toolkit layout (鎶€鑳?/ 杞欢) ---------- */
 .skills__toolkit {
   display: flex;
   flex-wrap: wrap;
@@ -2157,6 +2171,38 @@ main,
 }
 
 
+/* ---------- About contact-style background + light rays ---------- */
+.about__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 65% 60% at 50% 50%, black, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 65% 60% at 50% 50%, black, transparent 75%);
+  pointer-events: none;
+}
+
+.about__glow {
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(110, 231, 255, 0.09), rgba(167, 139, 250, 0.06) 45%, transparent 70%);
+  pointer-events: none;
+}
+
+.about__light-rays {
+  z-index: 0;
+  opacity: 0.7;
+  mix-blend-mode: screen;
+}
+
+
 /* ---------- Grainient section backgrounds ---------- */
 .about__grainient,
 .projects__grainient {
@@ -2308,4 +2354,57 @@ main,
 
 [data-theme="light"] .background-fx__polygon:nth-child(3n) {
   stroke: rgba(124, 92, 214, 0.14);
+}
+
+
+/* ---------- About copy links + copy toast ---------- */
+.about__copy-link {
+  display: inline-block;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: left;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.about__copy-link:hover {
+  color: var(--accent);
+}
+
+.about__copy-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.copy-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 120px;
+  transform: translateX(-50%);
+  z-index: 9999;
+  background: #ffffff;
+  color: #111111;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  animation: copyToastIn 0.25s ease;
+}
+
+@keyframes copyToastIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }

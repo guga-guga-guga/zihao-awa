@@ -1,4 +1,4 @@
-﻿export const profile = {
+export const profile = {
   name: '王子豪',
   latinName: 'WANG ZIHAO',
   initials: 'ZH',
@@ -8,7 +8,7 @@
   educationPeriod: '2022.09 — 2026.06',
   degree: '大学本科',
   email: 'eqfsbcpoilk098@163.com',
-  wechat: '@XG99999999999',
+  wechat: 'Im_baka_poi',
   available: '开放合作 / 求职中',
   summary:
     '跨越视觉设计、AI 工具与品牌策略的多面手。熟悉 3D 视觉、AI 辅助设计、品牌系统与交互体验，擅长用设计语言把技术能力转化为有辨识度的作品。具备嵌入式 + AI 视觉 + 软件开发 + 3D 设计的多维跨界储备，学习能力强，能快速把新工具、新工作流落到真实项目里。',

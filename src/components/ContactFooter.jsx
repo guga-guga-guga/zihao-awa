@@ -1,7 +1,30 @@
-﻿import Reveal from './Reveal'
+import { useRef, useState } from 'react'
+import Reveal from './Reveal'
 import { profile } from '../data/profile'
 
 export default function ContactFooter() {
+  const [copied, setCopied] = useState(null)
+  const timerRef = useRef(null)
+
+  const copyToClipboard = async (key, value) => {
+    try {
+      await navigator.clipboard.writeText(value)
+    } catch {
+      const textarea = document.createElement('textarea')
+      textarea.value = value
+      textarea.style.position = 'fixed'
+      textarea.style.opacity = '0'
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textarea)
+    }
+
+    setCopied(key)
+    if (timerRef.current) clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(() => setCopied(null), 1600)
+  }
+
   return (
     <footer className="contact" id="contact">
       <div className="contact__grid" aria-hidden="true" />
@@ -24,16 +47,31 @@ export default function ContactFooter() {
 
           <div className="contact__right">
             <Reveal delay={120} className="contact__channels">
-              <a className="contact__channel" href={`mailto:${profile.email}`}>
-                <span className="contact__channel-label">EMAIL</span>
+              <button
+                type="button"
+                className="contact__channel"
+                onClick={() => copyToClipboard('email', profile.email)}
+              >
+                <span className="contact__channel-label">
+                  EMAIL
+                  {copied === 'email' && <span className="contact__channel-copied">已复制</span>}
+                </span>
                 <strong>{profile.email}</strong>
-                <small>随时可以发邮件</small>
-              </a>
-              <div className="contact__channel">
-                <span className="contact__channel-label">WECHAT</span>
+                <small>{copied === 'email' ? '已复制到剪贴板' : '点击复制邮箱'}</small>
+              </button>
+
+              <button
+                type="button"
+                className="contact__channel"
+                onClick={() => copyToClipboard('wechat', profile.wechat)}
+              >
+                <span className="contact__channel-label">
+                  WECHAT
+                  {copied === 'wechat' && <span className="contact__channel-copied">已复制</span>}
+                </span>
                 <strong>{profile.wechat}</strong>
-                <small>添加时请备注来意</small>
-              </div>
+                <small>{copied === 'wechat' ? '已复制到剪贴板' : '点击复制微信号'}</small>
+              </button>
             </Reveal>
           </div>
         </div>

@@ -3,10 +3,8 @@ import Reveal from './Reveal'
 import SectionHeading from './SectionHeading'
 import Grainient from './Grainient'
 import { projects } from '../data/profile'
-import useTheme from '../hooks/useTheme'
 
 export default function Projects() {
-  const { theme } = useTheme()
   const [activeId, setActiveId] = useState(projects[0]?.id)
   const activeProject = projects.find((project) => project.id === activeId) || projects[0]
 
@@ -14,14 +12,14 @@ export default function Projects() {
     <section className="projects section" id="projects">
       <Grainient
         className="projects__grainient"
-        color1={theme === 'light' ? '#eef1f6' : '#1f1d1f'}
-        color2={theme === 'light' ? '#dbe4f0' : '#2c273e'}
-        color3={theme === 'light' ? '#e6ecf3' : '#252d36'}
-        timeSpeed={0.25}
+        color1="#1f1d1f"
+        color2="#3f2988"
+        color3="#252d36"
+        timeSpeed={1.2}
         colorBalance={0}
         warpStrength={1}
-        warpFrequency={5}
-        warpSpeed={2}
+        warpFrequency={8.3}
+        warpSpeed={3.5}
         warpAmplitude={50}
         blendAngle={0}
         blendSoftness={0.05}
