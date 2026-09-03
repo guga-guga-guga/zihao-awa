@@ -1545,7 +1545,7 @@ a {
 }
 
 
-/* ---------- Toolkit layout (鎶€鑳?/ 杞欢) ---------- */
+/* ---------- Toolkit layout (閹垛偓閼?/ 鏉烆垯娆? ---------- */
 .skills__toolkit {
   display: flex;
   flex-wrap: wrap;
@@ -1655,7 +1655,7 @@ main,
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  animation: heroCarouselFade 16s ease-in-out infinite;
+  animation: heroCarouselFade 24s ease-in-out infinite;
   will-change: opacity, transform;
   filter: saturate(0.9) contrast(1.05);
 }
@@ -1668,18 +1668,22 @@ main,
   animation-delay: 8s;
 }
 
+.hero__carousel-img--3 {
+  animation-delay: 16s;
+}
+
 @keyframes heroCarouselFade {
   0% {
     opacity: 0;
     transform: scale(1.02);
   }
-  8% {
+  5.33% {
     opacity: 0.65;
   }
-  42% {
+  28% {
     opacity: 0.65;
   }
-  50% {
+  33.33% {
     opacity: 0;
     transform: scale(1.05);
   }
@@ -2406,5 +2410,206 @@ main,
   to {
     opacity: 1;
     transform: translate(-50%, 0);
+  }
+}
+/* ---------- Mobile adaptation (<=768px only, desktop untouched) ---------- */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .section {
+    padding: 80px 0;
+  }
+
+  /* Navbar */
+  .nav__inner {
+    grid-template-columns: 1fr auto;
+    height: 68px;
+    gap: 12px;
+  }
+
+  .nav__logo-mark {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    font-size: 12px;
+  }
+
+  .nav__logo-text small {
+    display: none;
+  }
+
+  .nav__cta {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  /* Hero */
+  .hero__inner {
+    padding-top: 100px;
+    padding-bottom: 24px;
+  }
+
+  .hero__title {
+    font-size: clamp(44px, 13vw, 76px);
+  }
+
+  .hero__roles {
+    font-size: 12px;
+    gap: 8px;
+    margin-bottom: 20px;
+    letter-spacing: 0.1em;
+  }
+
+  .hero__subtitle {
+    margin-top: 24px;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .hero__actions {
+    margin-top: 28px;
+    gap: 12px;
+  }
+
+  .hero__actions .btn {
+    width: 100%;
+  }
+
+  .hero__footer {
+    gap: 12px;
+  }
+
+  .hero__footer-line {
+    width: 40px;
+  }
+
+  /* About */
+  .about__layout,
+  .about__info-grid,
+  .about__stats,
+  .projects__showcase,
+  .projects__list,
+  .skills__toolkit,
+  .contact__layout,
+  .contact__channels {
+    grid-template-columns: 1fr;
+  }
+
+  .about__portrait-wrap {
+    position: static;
+  }
+
+  .about__portrait {
+    max-width: 100%;
+  }
+
+  .about__content {
+    min-width: 0;
+  }
+
+  .about__info-item,
+  .about__stat {
+    padding: 18px;
+  }
+
+  /* Projects */
+  .projects__visual {
+    max-height: none;
+    aspect-ratio: 4 / 3;
+    border-radius: 18px;
+  }
+
+  .projects__stage {
+    gap: 14px;
+  }
+
+  .projects__tab-inner {
+    padding: 14px 16px;
+    gap: 10px;
+  }
+
+  .projects__caption {
+    padding: 18px;
+  }
+
+  /* Skills */
+  .skills__card {
+    padding: 22px;
+    min-height: auto;
+  }
+
+  /* Contact */
+  .contact__right {
+    min-height: 0;
+  }
+
+  .contact__channel {
+    padding: 20px;
+  }
+
+  .contact__footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding-top: 16px;
+    padding-bottom: 18px;
+  }
+
+  /* Headings & text */
+  .section-heading__title {
+    font-size: clamp(32px, 9vw, 48px);
+  }
+
+  .section-heading__desc {
+    font-size: 15px;
+  }
+
+  .about__summary {
+    font-size: 17px;
+    line-height: 1.7;
+  }
+
+  .contact__title {
+    font-size: clamp(56px, 16vw, 100px);
+  }
+
+  .contact__desc {
+    font-size: 16px;
+  }
+
+  /* Copy toast */
+  .copy-toast {
+    bottom: 90px;
+    padding: 8px 18px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav__logo-text span {
+    font-size: 14px;
+  }
+
+  .nav__cta {
+    display: none;
+  }
+
+  .hero__title {
+    font-size: clamp(36px, 14vw, 56px);
+  }
+
+  .section-heading__title {
+    font-size: clamp(28px, 10vw, 40px);
+  }
+
+  .about__stats {
+    gap: 12px;
+  }
+
+  .about__info-grid {
+    gap: 12px;
   }
 }

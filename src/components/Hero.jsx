@@ -65,6 +65,10 @@ export default function Hero() {
           <source srcSet="/images/hero-ocean.webp" type="image/webp" />
           <img className="hero__carousel-img hero__carousel-img--2" src="/images/hero-ocean.png" alt="" decoding="async" loading="lazy" fetchPriority="low" />
         </picture>
+          <picture>
+            <source srcSet="/images/hero-cangmen.webp" type="image/webp" />
+            <img className="hero__carousel-img hero__carousel-img--3" src="/images/hero-cangmen.png" alt="" decoding="async" loading="lazy" fetchPriority="low" />
+          </picture>
       </div>
 
       <div className="hero__veil" aria-hidden="true" />
