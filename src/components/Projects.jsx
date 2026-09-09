@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Reveal from './Reveal'
 import SectionHeading from './SectionHeading'
 import Grainient from './Grainient'
@@ -6,7 +6,43 @@ import { projects } from '../data/profile'
 
 export default function Projects() {
   const [activeId, setActiveId] = useState(projects[0]?.id)
+  const [activeImageIndex, setActiveImageIndex] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
+
   const activeProject = projects.find((project) => project.id === activeId) || projects[0]
+  const projectImages = activeProject.images?.length ? activeProject.images : [activeProject.image]
+  const imageCount = projectImages.length
+  const currentImage = projectImages[activeImageIndex] || projectImages[0]
+
+  useEffect(() => {
+    setActiveImageIndex(0)
+  }, [activeId])
+
+  useEffect(() => {
+    if (imageCount <= 1 || isPaused) return undefined
+
+    const timer = setInterval(() => {
+      setActiveImageIndex((index) => (index + 1) % imageCount)
+    }, 5000)
+
+    return () => clearInterval(timer)
+  }, [activeId, imageCount, activeImageIndex, isPaused])
+
+  const showNextImage = () => {
+    if (imageCount <= 1) return
+    setActiveImageIndex((index) => (index + 1) % imageCount)
+  }
+
+  const showImage = (index) => {
+    setActiveImageIndex(index)
+  }
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      showNextImage()
+    }
+  }
 
   return (
     <section className="projects section" id="projects">
@@ -45,14 +81,48 @@ export default function Projects() {
 
         <div className="projects__showcase">
           <Reveal className="projects__stage">
-            <div className="projects__visual">
+            <div
+              className="projects__visual"
+              role="button"
+              tabIndex={0}
+              aria-label="点击切换到下一张图片"
+              onClick={showNextImage}
+              onKeyDown={handleKeyDown}
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+            >
               <picture>
-                  <source srcSet={activeProject.image.replace(/\.png$/, '.webp')} type="image/webp" />
-                  <img src={activeProject.image} alt={activeProject.title} loading="lazy" decoding="async" />
-                </picture>
+                <source srcSet={currentImage.replace(/\.png$/, '.webp')} type="image/webp" />
+                <img
+                  key={currentImage}
+                  src={currentImage}
+                  alt={activeProject.title}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
               <div className="projects__visual-shade" aria-hidden="true" />
               <span className="projects__visual-index">{activeProject.index}</span>
               <span className="projects__visual-year">{activeProject.year}</span>
+
+              {imageCount > 1 && (
+                <div className="projects__dots" role="tablist" aria-label="图片切换">
+                  {projectImages.map((image, index) => (
+                    <button
+                      key={image}
+                      type="button"
+                      role="tab"
+                      aria-selected={activeImageIndex === index}
+                      aria-label={`查看第 ${index + 1} 张图片`}
+                      className={`projects__dot ${activeImageIndex === index ? 'is-active' : ''}`}
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        showImage(index)
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           </Reveal>
 

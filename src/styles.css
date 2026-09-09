@@ -2613,3 +2613,63 @@ main,
     gap: 12px;
   }
 }
+
+/* ---------- Project image carousel dots ---------- */
+.projects__visual {
+  cursor: pointer;
+}
+
+.projects__visual img {
+  animation: projectsImageFade 0.45s ease;
+}
+
+@keyframes projectsImageFade {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.projects__dots {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(5, 6, 7, 0.45);
+  backdrop-filter: blur(8px);
+}
+
+.projects__dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.projects__dot.is-active {
+  background: var(--accent);
+  transform: scale(1.25);
+}
+
+.projects__dot:hover {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.projects__dot:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
