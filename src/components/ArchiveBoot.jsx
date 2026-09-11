@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 const ACCESS_TEXT = '正在验证访问权限'
-const AUTH_TEXT = '身份已确认：王子豪'
+const AUTH_TEXT = '身份已确认：用户'
 
 export default function ArchiveBoot({ progress = 0 }) {
   const [access, setAccess] = useState('')
