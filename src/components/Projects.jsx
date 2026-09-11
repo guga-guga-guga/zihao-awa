@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Reveal from './Reveal'
 import SectionHeading from './SectionHeading'
 import Archive3DBackground from './Archive3DBackground'
@@ -15,6 +15,20 @@ export default function Projects() {
   const [activeId, setActiveId] = useState(projects[0]?.id)
   const [activeImageIndex, setActiveImageIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const stageRef = useRef(null)
+  const [stageScale, setStageScale] = useState(() => {
+    if (typeof window === 'undefined') return 1
+    return Math.min(window.innerWidth / 1920, window.innerHeight / 1080)
+  })
+  const [stageSize, setStageSize] = useState(() => {
+    if (typeof window === 'undefined') return { width: 1920, height: 1080 }
+    const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080)
+    const safeScale = scale > 0 ? scale : 1
+    return {
+      width: window.innerWidth / safeScale,
+      height: window.innerHeight / safeScale,
+    }
+  })
 
   const { progress, done } = useArchivePreload(projects, stage === 'loading')
 
@@ -56,6 +70,33 @@ export default function Projects() {
     return () => clearInterval(timer)
   }, [stage, activeId, imageCount, activeImageIndex, isPaused])
 
+  useEffect(() => {
+    const node = stageRef.current
+    if (!node) return undefined
+
+    const updateScale = () => {
+      const rect = node.getBoundingClientRect()
+      if (!rect.width || !rect.height) return
+      const scale = Math.min(rect.width / 1920, rect.height / 1080)
+      const safeScale = scale > 0 ? scale : 1
+      setStageScale(safeScale)
+      setStageSize({
+        width: rect.width / safeScale,
+        height: rect.height / safeScale,
+      })
+    }
+
+    updateScale()
+    const observer = new ResizeObserver(updateScale)
+    observer.observe(node)
+    window.addEventListener('resize', updateScale)
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('resize', updateScale)
+    }
+  }, [])
+
   const showNextImage = () => {
     if (imageCount <= 1) return
     setActiveImageIndex((index) => (index + 1) % imageCount)
@@ -79,8 +120,23 @@ export default function Projects() {
   return (
     <section className="projects section" id="projects">
       <Archive3DBackground />
-      <div className="container">
-        <SectionHeading
+      <div className="projects__frost" aria-hidden="true">
+        <span className="projects__frost-edge projects__frost-edge--top" />
+        <span className="projects__frost-edge projects__frost-edge--right" />
+        <span className="projects__frost-edge projects__frost-edge--bottom" />
+        <span className="projects__frost-edge projects__frost-edge--left" />
+      </div>
+      <div className="archive-stage" ref={stageRef}>
+        <div
+          className="archive-stage__inner"
+          style={{
+            '--stage-scale': stageScale,
+            '--stage-w': `${stageSize.width}px`,
+            '--stage-h': `${stageSize.height}px`,
+          }}
+        >
+          <div className="container">
+            <SectionHeading
           index="02"
           title="历史项目"
           en="PROJECT ARCHIVE"
@@ -205,6 +261,8 @@ export default function Projects() {
             </div>
           </div>
         )}
+          </div>
+        </div>
       </div>
     </section>
   )

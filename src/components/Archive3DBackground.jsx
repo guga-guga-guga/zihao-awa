@@ -1,15 +1,13 @@
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { getArchiveQuality } from '../utils/archiveQuality'
 
 const MODEL_URL = '/assets/archive-cassette.glb'
-const COLS = 4
-const ROWS = 64
 const CAMERA_FOV = 4
 const CAMERA_DISTANCE = 120
 const CAMERA_YAW = THREE.MathUtils.degToRad(59)
 const CAMERA_ELEVATION = THREE.MathUtils.degToRad(19)
-const FRAME_INTERVAL = 1000 / 40
 
 export default function Archive3DBackground({ className = '' }) {
   const containerRef = useRef(null)
@@ -19,13 +17,19 @@ export default function Archive3DBackground({ className = '' }) {
     if (!container) return undefined
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const quality = getArchiveQuality()
+    const COLS = quality.cols
+    const ROWS = quality.rows
+    const FRAME_INTERVAL = quality.frameInterval
+    const INSTANCE_INTERVAL = quality.instanceInterval
+
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
-      antialias: false,
+      antialias: quality.antialias,
       precision: 'mediump',
       powerPreference: 'low-power',
     })
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25))
+    renderer.setPixelRatio(quality.pixelRatio)
     renderer.outputColorSpace = THREE.SRGBColorSpace
     renderer.toneMapping = THREE.ACESFilmicToneMapping
     renderer.toneMappingExposure = 1.05
@@ -263,7 +267,7 @@ export default function Archive3DBackground({ className = '' }) {
         group.rotation.set(0, 0, 0)
       }
 
-      if (now - lastInstanceUpdate > 32) {
+      if (now - lastInstanceUpdate > INSTANCE_INTERVAL) {
         updateInstances(elapsed)
         lastInstanceUpdate = now
       }
