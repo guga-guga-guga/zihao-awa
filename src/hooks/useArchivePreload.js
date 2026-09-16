@@ -6,7 +6,11 @@ const collectImages = (projects) => {
 
   projects.forEach((project) => {
     const images = project.media?.length
-      ? project.media.filter((item) => item.type === 'image').map((item) => item.src)
+      ? project.media.flatMap((item) => {
+          if (item.type === 'image') return [item.src]
+          if (item.type === 'video' && item.poster) return [item.poster]
+          return []
+        })
       : project.images?.length
         ? project.images
         : [project.image]

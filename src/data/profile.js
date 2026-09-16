@@ -48,7 +48,7 @@ export const projects = [
         {
           type: 'video',
           src: '/videos/project-history-3d-animation.mp4',
-          poster: '/images/project-history-3d-animation.webp',
+          poster: '/images/project-history-3d-animation-first-frame-v3.webp',
         },
       ],
     accent: '#6ee7ff',
