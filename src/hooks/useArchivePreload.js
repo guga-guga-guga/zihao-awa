@@ -5,7 +5,11 @@ const collectImages = (projects) => {
   const list = []
 
   projects.forEach((project) => {
-    const images = project.images?.length ? project.images : [project.image]
+    const images = project.media?.length
+      ? project.media.filter((item) => item.type === 'image').map((item) => item.src)
+      : project.images?.length
+        ? project.images
+        : [project.image]
     images.forEach((src) => {
       if (!src || seen.has(src)) return
       seen.add(src)

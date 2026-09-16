@@ -40,6 +40,17 @@ export const projects = [
         '/images/project-history-3d-washer.png',
         '/images/project-history-3d-animation.png',
       ],
+      media: [
+        { type: 'image', src: '/images/project-history-scifi.png' },
+        { type: 'image', src: '/images/project-history-3d-q.png' },
+        { type: 'image', src: '/images/project-history-3d-washer.png' },
+        { type: 'image', src: '/images/project-history-3d-animation.png' },
+        {
+          type: 'video',
+          src: '/videos/project-history-3d-animation.mp4',
+          poster: '/images/project-history-3d-animation.webp',
+        },
+      ],
     accent: '#6ee7ff',
   },
   {

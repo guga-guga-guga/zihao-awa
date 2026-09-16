@@ -37,11 +37,14 @@ export default function Projects() {
     0,
     projects.findIndex((project) => project.id === activeProject.id),
   )
-  const projectImages = activeProject.images?.length
-    ? activeProject.images
-    : [activeProject.image]
-  const imageCount = projectImages.length
-  const currentImage = projectImages[activeImageIndex] || projectImages[0]
+  const projectMedia = activeProject.media?.length
+    ? activeProject.media
+    : (activeProject.images?.length ? activeProject.images : [activeProject.image]).map(
+        (src) => ({ type: 'image', src }),
+      )
+  const mediaCount = projectMedia.length
+  const currentMedia = projectMedia[activeImageIndex] || projectMedia[0]
+  const currentIsVideo = currentMedia?.type === 'video'
 
   useEffect(() => {
     if (stage !== 'loading') return undefined
@@ -61,14 +64,14 @@ export default function Projects() {
   }, [activeId])
 
   useEffect(() => {
-    if (stage !== 'ready' || imageCount <= 1 || isPaused) return undefined
+    if (stage !== 'ready' || mediaCount <= 1 || isPaused || currentIsVideo) return undefined
 
     const timer = setInterval(() => {
-      setActiveImageIndex((index) => (index + 1) % imageCount)
+      setActiveImageIndex((index) => (index + 1) % mediaCount)
     }, 5000)
 
     return () => clearInterval(timer)
-  }, [stage, activeId, imageCount, activeImageIndex, isPaused])
+  }, [stage, activeId, mediaCount, activeImageIndex, isPaused, currentIsVideo])
 
   useEffect(() => {
     const node = stageRef.current
@@ -98,8 +101,8 @@ export default function Projects() {
   }, [])
 
   const showNextImage = () => {
-    if (imageCount <= 1) return
-    setActiveImageIndex((index) => (index + 1) % imageCount)
+    if (mediaCount <= 1) return
+    setActiveImageIndex((index) => (index + 1) % mediaCount)
   }
 
   const showImage = (index) => {
@@ -154,22 +157,40 @@ export default function Projects() {
                 className="archive-viewer"
                 role="button"
                 tabIndex={0}
-                aria-label="点击切换到下一张图片"
+                aria-label="点击切换到下一项"
                 onClick={showNextImage}
                 onKeyDown={handleViewerKeyDown}
                 onMouseEnter={() => setIsPaused(true)}
                 onMouseLeave={() => setIsPaused(false)}
               >
-                <picture>
-                  <source srcSet={currentImage.replace(/\.png$/, '.webp')} type="image/webp" />
-                  <img
-                    key={currentImage}
-                    src={currentImage}
-                    alt={activeProject.title}
-                    loading="lazy"
-                    decoding="async"
+                {currentIsVideo ? (
+                  <video
+                    key={currentMedia.src}
+                    className="archive-viewer__video"
+                    src={currentMedia.src}
+                    poster={currentMedia.poster}
+                    controls
+                    autoPlay
+                    muted
+                    playsInline
+                    onEnded={showNextImage}
+                    onClick={(event) => event.stopPropagation()}
                   />
-                </picture>
+                ) : (
+                  <picture>
+                    <source
+                      srcSet={currentMedia.src.replace(/\.png$/, '.webp')}
+                      type="image/webp"
+                    />
+                    <img
+                      key={currentMedia.src}
+                      src={currentMedia.src}
+                      alt={activeProject.title}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </picture>
+                )}
 
                 <div className="archive-viewer__scan" aria-hidden="true" />
                 <div className="archive-viewer__grid" aria-hidden="true" />
@@ -189,18 +210,18 @@ export default function Projects() {
                 <div className="archive-viewer__count">
                   <RollingNumber value={activeImageIndex + 1} length={2} />
                   <i>/</i>
-                  <RollingNumber value={imageCount} length={2} />
+                  <RollingNumber value={mediaCount} length={2} />
                 </div>
 
-                {imageCount > 1 && (
-                  <div className="projects__dots" role="tablist" aria-label="图片切换">
-                    {projectImages.map((image, index) => (
+                {mediaCount > 1 && (
+                  <div className="projects__dots" role="tablist" aria-label="媒体切换">
+                    {projectMedia.map((media, index) => (
                       <button
-                        key={image}
+                        key={media.src}
                         type="button"
                         role="tab"
                         aria-selected={activeImageIndex === index}
-                        aria-label={`查看第 ${index + 1} 张图片`}
+                        aria-label={`查看第 ${index + 1} 项`}
                         className={`projects__dot ${activeImageIndex === index ? 'is-active' : ''}`}
                         onClick={(event) => {
                           event.stopPropagation()
