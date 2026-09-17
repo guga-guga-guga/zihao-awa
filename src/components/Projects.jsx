@@ -15,7 +15,9 @@ export default function Projects() {
   const [activeId, setActiveId] = useState(projects[0]?.id)
   const [activeImageIndex, setActiveImageIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false)
   const stageRef = useRef(null)
+  const videoRef = useRef(null)
   const [stageScale, setStageScale] = useState(() => {
     if (typeof window === 'undefined') return 1
     return Math.min(window.innerWidth / 1920, window.innerHeight / 1080)
@@ -64,6 +66,10 @@ export default function Projects() {
   }, [activeId])
 
   useEffect(() => {
+    setIsVideoPlaying(false)
+  }, [currentMedia?.src])
+
+  useEffect(() => {
     if (stage !== 'ready' || mediaCount <= 1 || isPaused || currentIsVideo) return undefined
 
     const timer = setInterval(() => {
@@ -105,6 +111,26 @@ export default function Projects() {
     setActiveImageIndex((index) => (index + 1) % mediaCount)
   }
 
+  const showPrevImage = () => {
+    if (mediaCount <= 1) return
+    setActiveImageIndex((index) => (index - 1 + mediaCount) % mediaCount)
+  }
+
+  const handleVideoEnded = () => {
+    const video = videoRef.current
+    if (video) {
+      video.currentTime = 0
+      video.pause()
+    }
+    setIsVideoPlaying(false)
+  }
+
+  const playCurrentVideo = () => {
+    const video = videoRef.current
+    if (!video) return
+    video.play().catch(() => {})
+  }
+
   const showImage = (index) => {
     setActiveImageIndex(index)
   }
@@ -114,7 +140,12 @@ export default function Projects() {
   }
 
   const handleViewerKeyDown = (event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault()
+      showPrevImage()
+    }
+
+    if (event.key === 'ArrowRight' || event.key === 'Enter' || event.key === ' ') {
       event.preventDefault()
       showNextImage()
     }
@@ -154,26 +185,27 @@ export default function Projects() {
           <div className="archive-shell">
             <Reveal className="archive-viewer-wrap">
               <div
-                className="archive-viewer"
-                role="button"
+                className={`archive-viewer ${currentIsVideo ? 'is-video' : ''}`}
+                role="group"
                 tabIndex={0}
-                aria-label="点击切换到下一项"
-                onClick={showNextImage}
+                aria-label="媒体展示，使用左右区域切换"
                 onKeyDown={handleViewerKeyDown}
                 onMouseEnter={() => setIsPaused(true)}
                 onMouseLeave={() => setIsPaused(false)}
               >
                 {currentIsVideo ? (
                   <video
+                    ref={videoRef}
                     key={currentMedia.src}
                     className="archive-viewer__video"
                     src={currentMedia.src}
                     poster={currentMedia.poster}
                     controls
-                    autoPlay
-                    muted
+                    preload="metadata"
                     playsInline
-                    onEnded={showNextImage}
+                    onPlay={() => setIsVideoPlaying(true)}
+                    onPause={() => setIsVideoPlaying(false)}
+                    onEnded={handleVideoEnded}
                     onClick={(event) => event.stopPropagation()}
                   />
                 ) : (
@@ -190,6 +222,45 @@ export default function Projects() {
                       decoding="async"
                     />
                   </picture>
+                )}
+
+                {mediaCount > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      className="archive-viewer__nav archive-viewer__nav--prev"
+                      aria-label="上一项"
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        showPrevImage()
+                      }}
+                    />
+                    <button
+                      type="button"
+                      className="archive-viewer__nav archive-viewer__nav--next"
+                      aria-label="下一项"
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        showNextImage()
+                      }}
+                    />
+                  </>
+                )}
+
+                {currentIsVideo && !isVideoPlaying && (
+                  <button
+                    type="button"
+                    className="archive-viewer__play"
+                    aria-label="播放视频"
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      videoRef.current?.play()
+                    }}
+                  >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M8 5v14l11-7z" fill="currentColor" />
+                    </svg>
+                  </button>
                 )}
 
                 <div className="archive-viewer__scan" aria-hidden="true" />

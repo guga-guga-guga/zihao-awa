@@ -88,6 +88,14 @@ export const projects = [
     tags: ['AI 视频', '视频生成', '创意导演'],
     description: '使用 AI 视频生成工具完成从脚本、分镜到成片的创意视频创作，探索 AI 在视觉叙事中的高效工作流。',
     image: '/images/project-history-video.png',
+      media: [
+        { type: 'image', src: '/images/project-history-video.png' },
+        {
+          type: 'video',
+          src: '/videos/project-history-ai-video.mp4',
+          poster: '/images/project-history-ai-video-cover.webp',
+        },
+      ],
     accent: '#f472b6',
   },
 ]

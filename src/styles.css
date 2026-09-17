@@ -3648,3 +3648,95 @@ main,
   object-fit: cover;
   background: #000;
 }
+/* ---------- Archive viewer click zones and video play ---------- */
+.archive-viewer__nav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 4;
+  width: 30%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.archive-viewer__nav--prev {
+  left: 0;
+}
+
+.archive-viewer__nav--next {
+  right: 0;
+}
+
+.archive-viewer.is-video .archive-viewer__nav {
+  bottom: 46px;
+}
+
+.archive-viewer__nav::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid rgba(255, 255, 255, 0.72);
+  border-right: 2px solid rgba(255, 255, 255, 0.72);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.archive-viewer__nav--prev::after {
+  left: 24px;
+  transform: translateY(-50%) rotate(-135deg);
+}
+
+.archive-viewer__nav--next::after {
+  right: 24px;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.archive-viewer__nav--prev:hover {
+  background: linear-gradient(90deg, rgba(5, 6, 7, 0.5), transparent 70%);
+}
+
+.archive-viewer__nav--next:hover {
+  background: linear-gradient(270deg, rgba(5, 6, 7, 0.5), transparent 70%);
+}
+
+.archive-viewer__nav:hover::after {
+  opacity: 1;
+}
+
+.archive-viewer__play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.46);
+  border-radius: 50%;
+  background: rgba(5, 6, 7, 0.58);
+  color: #fff;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.archive-viewer__play:hover {
+  border-color: var(--accent);
+  background: rgba(5, 6, 7, 0.78);
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.archive-viewer__play svg {
+  width: 30px;
+  height: 30px;
+  margin-left: 4px;
+}
