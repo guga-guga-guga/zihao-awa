@@ -72,6 +72,17 @@ export default function ContactFooter() {
                 <strong>{profile.wechat}</strong>
                 <small>{copied === 'wechat' ? '已复制到剪贴板' : '点击复制微信号'}</small>
               </button>
+
+              <a
+                className="contact__channel contact__channel--link"
+                href={profile.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="contact__channel-label">GITHUB</span>
+                <strong>github.com/{profile.github}</strong>
+                <small>点击前往 GitHub 主页</small>
+              </a>
             </Reveal>
           </div>
         </div>

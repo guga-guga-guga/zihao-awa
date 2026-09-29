@@ -1190,6 +1190,16 @@ a {
     transform 0.3s ease;
 }
 
+/* GitHub 为外链卡片，占满整行，与两张可复制卡片区分 */
+.contact__channel--link {
+  grid-column: 1 / -1;
+}
+
+.contact__channel--link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
 .contact__channel:hover {
   background: rgba(255, 255, 255, 0.04);
   border-color: var(--accent);

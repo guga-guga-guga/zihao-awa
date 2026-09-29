@@ -94,6 +94,14 @@ export default function About() {
                 >
                   {profile.wechat}
                 </button>
+                <a
+                  className="about__copy-link"
+                  href={profile.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  github.com/{profile.github}
+                </a>
               </div>
             </Reveal>
 
