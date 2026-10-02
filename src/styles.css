@@ -3649,6 +3649,10 @@ main,
   }
 }
 /* ---------- Historical project video media ---------- */
+.archive-viewer.is-portrait .archive-viewer__video {
+  object-fit: contain;
+}
+
 .archive-viewer__video {
   position: absolute;
   inset: 0;

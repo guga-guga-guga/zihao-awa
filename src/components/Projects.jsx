@@ -47,6 +47,7 @@ export default function Projects() {
   const mediaCount = projectMedia.length
   const currentMedia = projectMedia[activeImageIndex] || projectMedia[0]
   const currentIsVideo = currentMedia?.type === 'video'
+  const currentIsPortrait = currentIsVideo && currentMedia?.orientation === 'portrait'
 
   useEffect(() => {
     if (stage !== 'loading') return undefined
@@ -185,7 +186,7 @@ export default function Projects() {
           <div className="archive-shell">
             <Reveal className="archive-viewer-wrap">
               <div
-                className={`archive-viewer ${currentIsVideo ? 'is-video' : ''}`}
+                className={`archive-viewer ${currentIsVideo ? 'is-video' : ''} ${currentIsPortrait ? 'is-portrait' : ''}`}
                 role="group"
                 tabIndex={0}
                 aria-label="媒体展示，使用左右区域切换"
