@@ -3754,3 +3754,323 @@ main,
   height: 30px;
   margin-left: 4px;
 }
+
+/* ---------- 可玩 Web 版：加载前海报页 + 内嵌游戏层 ---------- */
+.archive-viewer.is-game {
+  aspect-ratio: 16 / 9;
+  cursor: default;
+}
+
+.archive-viewer__game {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.archive-viewer__game-poster,
+.archive-viewer__game-poster img {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.archive-viewer__game-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 32px;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(5, 6, 7, 0.4), rgba(5, 6, 7, 0.72));
+}
+
+.archive-viewer__game-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.26em;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+}
+
+.archive-viewer__game .archive-viewer__game-btn {
+  height: 56px;
+  padding: 0 34px;
+  font-size: 15px;
+}
+
+.archive-viewer__game-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.archive-viewer__game-note {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.archive-viewer__game-mobile {
+  display: none;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* 小屏 / 触屏设备：不给启动按钮，直接提示需要桌面端 */
+@media (max-width: 860px), (hover: none) and (pointer: coarse) {
+  .archive-viewer__game-btn,
+  .archive-viewer__game-note {
+    display: none;
+  }
+
+  .archive-viewer__game-mobile {
+    display: block;
+  }
+}
+
+/* 内嵌游戏层：一旦启动就常驻挂载，切换项目只隐藏不卸载，
+   这样切回来时 Godot 仍停在"失焦自动暂停"的暂停界面。
+   用 visibility 而不用 display:none，避免浏览器停止驱动该 iframe。 */
+.archive-game {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  background: #050607;
+  /* 只对 opacity 做过渡：visibility 必须立即生效。
+     若把 visibility 也放进过渡（延迟到淡出结束），一旦过渡被中断，
+     这层就会一直可见 —— 它 z-index 比故障终端高，会直接盖住终端。 */
+  transition: opacity 0.3s ease;
+}
+
+.archive-game.is-active {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.archive-game__frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.archive-game__tools {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+}
+
+.archive-game__tools button,
+.archive-game__tools a {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: rgba(5, 6, 7, 0.72);
+  color: var(--text);
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+
+.archive-game__tools button:hover,
+.archive-game__tools a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+
+/* ---------- 游戏态：游戏占满区块，4 个标签下沉为编号方块 ---------- */
+/* 游戏运行时隐藏 3D 磁带背景（display:none 会让它的 IntersectionObserver
+   判定不可见，从而自动停掉 rAF 渲染循环，而不只是视觉上藏起来） */
+.projects.is-game-mode .archive-3d-bg {
+  display: none;
+}
+
+/* 让出标题占的高度，给游戏腾空间 */
+.projects.is-game-mode .section-heading {
+  display: none;
+}
+
+/* 标签：只露出编号 */
+.projects.is-game-mode .archive-tab__prefix {
+  display: none;
+}
+
+.projects.is-game-mode .archive-tabs {
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+}
+
+.projects.is-game-mode .archive-tab {
+  grid-template-columns: 1fr;
+  place-items: center;
+  width: 64px;
+  height: 56px;
+  padding: 0;
+  border-radius: 14px;
+}
+
+.projects.is-game-mode .archive-tab:hover {
+  transform: translateY(-3px);
+}
+
+.projects.is-game-mode .archive-tab__body,
+.projects.is-game-mode .archive-tab__ticks {
+  display: none;
+}
+
+.projects.is-game-mode .archive-tab__index {
+  font-size: 14px;
+  letter-spacing: 0.06em;
+}
+
+/* FLIP 动画期间：禁止 .archive-tab 自身的 CSS 过渡参与，
+   否则 GSAP 每帧写的 transform 会被 CSS 再缓动一次（进入不丝滑 / 离开动两次）。 */
+.is-flipping-tabs .archive-tab,
+.is-flipping-tabs .archive-tab:hover,
+.is-flipping-tabs .archive-tab.is-active {
+  transition: none !important;
+}
+/* 游戏态：分栏头（ARCHIVE / SELECT）与项目介绍一并隐藏 */
+.projects.is-game-mode .archive-side__head,
+.projects.is-game-mode .archive-meta {
+  display: none;
+}
+
+/* 游戏态：连顶部导航一起隐藏（导航在 section 之外，靠 body 上的类名） */
+body.is-game-mode .nav {
+  display: none;
+}
+/* 游戏态布局：保持两列网格 —— 左列游戏占满（height 由既有规则给到 100%），
+   右列收窄成一条只挂编号方块的窄栏。
+   注意：不能把 shell 改成 flex column，否则 .archive-side 上既有的 height:100%
+   会变成 flex-basis，把整条右栏撑到全高、把游戏区压成 0 高。 */
+@media (min-width: 1024px) {
+  .projects.is-game-mode .archive-stage__inner .container {
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  .projects.is-game-mode .archive-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 84px;
+    gap: 14px;
+    align-items: stretch;
+  }
+
+  /* 左列：游戏撑满整列（aspect-ratio 放开，height 沿用既有 100%） */
+  .projects.is-game-mode .archive-viewer-wrap {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .projects.is-game-mode .archive-viewer {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  /* 右列：取消撑满，改成居中竖排的编号栏 */
+  .projects.is-game-mode .archive-side {
+    height: auto;
+    min-height: 0;
+    gap: 0;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .projects.is-game-mode .archive-tabs {
+    flex: 0 0 auto;
+    flex-direction: column;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+/* 游戏态：编号方块淡化挂靠，悬停或激活才点亮 */
+.projects.is-game-mode .archive-tab {
+  opacity: 0.5;
+  transition:
+    opacity 0.3s ease,
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.projects.is-game-mode .archive-tab:hover,
+.projects.is-game-mode .archive-tab.is-active {
+  opacity: 1;
+}
+
+.projects.is-game-mode .archive-tab.is-active {
+  transform: none;
+}
+
+
+/* ---------- 故障终端启动屏（再次进入游戏前）：整块可点 ---------- */
+.archive-viewer__resume {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #05070a;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* FaultyTerminal 的根容器是 position:relative 且没有内在尺寸，
+   不撑满的话会被压成 0 高 —— 必须绝对定位铺满按钮 */
+.archive-viewer__resume > .faulty-terminal-container {
+  position: absolute;
+  inset: 0;
+}
+
+.archive-viewer__resume-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  padding: 14px 30px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  background: rgba(5, 6, 7, 0.5);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  letter-spacing: 0.22em;
+  white-space: nowrap;
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease,
+    background 0.3s ease;
+}
+
+.archive-viewer__resume:hover .archive-viewer__resume-text {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(5, 6, 7, 0.68);
+}
+
+.archive-viewer__resume:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -4px;
+}

@@ -63,11 +63,9 @@ export const projects = [
     year: '2023',
     tags: ['Godot', '游戏视觉', '动效'],
     description: '从玩法设计到视觉绘制、动效与代码实现，完成一款可游玩的 2D 小游戏，探索轻量级独立开发的完整路径。',
-    image: '/images/project-history-game.png',
-      images: [
-        '/images/project-history-game.png',
-        '/images/project-history-game-2d.png',
-      ],
+    gameUrl: '/game/index.html',
+    gameLabel: '开始游戏',
+    poster: '/images/project-history-game-2d.png',
     accent: '#fbbf24',
   },
   {

@@ -19,6 +19,10 @@ const collectImages = (projects) => {
       seen.add(src)
       list.push(src)
     })
+    if (project.poster && !seen.has(project.poster)) {
+      seen.add(project.poster)
+      list.push(project.poster)
+    }
   })
 
   return list
