@@ -35,7 +35,7 @@ export default function About() {
         <div className="about__layout">
           <Reveal className="about__portrait-wrap" delay={80}>
             <div className="about__portrait">
-              <img src="/images/portrait.svg" alt="王子豪个人头像占位图" />
+              <img src="images/portrait.svg" alt="王子豪个人头像占位图" />
               <div className="about__portrait-info">
                 <span className="about__name">{profile.name}</span>
                 <span className="about__roles">{profile.roles.join(' / ')}</span>

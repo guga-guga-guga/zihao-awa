@@ -3,7 +3,7 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { getArchiveQuality } from '../utils/archiveQuality'
 
-const MODEL_URL = '/assets/archive-cassette.glb'
+const MODEL_URL = 'assets/archive-cassette.glb'
 const CAMERA_FOV = 4
 const CAMERA_DISTANCE = 120
 const CAMERA_YAW = THREE.MathUtils.degToRad(59)
