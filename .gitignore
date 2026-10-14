@@ -3,3 +3,8 @@ dist
 .npm-cache
 .DS_Store
 *.local
+
+# 本机环境 / AI 会话相关的交接笔记，不入库
+docs/cloudflare-game-handover.md
+docs/*handover*.md
+docs/*交接*.md

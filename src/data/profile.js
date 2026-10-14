@@ -63,7 +63,10 @@ export const projects = [
     year: '2023',
     tags: ['Godot', '游戏视觉', '动效'],
     description: '从玩法设计到视觉绘制、动效与代码实现，完成一款可游玩的 2D 小游戏，探索轻量级独立开发的完整路径。',
-    gameUrl: 'game/index.html',
+    // 默认走同域相对路径。VITE_GAME_ORIGIN 只是一个可选的覆盖开关，
+    // 正常情况（本地开发 / GitHub Pages / Cloudflare）都不要设置它 ——
+    // 一旦指向其它域名，iframe 会变成跨域，站点与游戏的界面状态联动会失效。
+    gameUrl: `${import.meta.env.VITE_GAME_ORIGIN ?? ''}game/index.html`,
     gameLabel: '开始游戏',
     poster: 'images/project-history-game-2d.png',
     accent: '#fbbf24',
